@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1082957415457",
+    "project_id": "app-ditonton-eaf16",
+    "storage_bucket": "app-ditonton-eaf16.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1082957415457:android:ec68e20394e00578538f60",
+        "android_client_info": {
+          "package_name": "com.huda.ditonton"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMAZinqjxBGW1wVhzOunj2MgdOOAEOhms"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
