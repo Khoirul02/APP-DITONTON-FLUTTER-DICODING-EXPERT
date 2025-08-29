@@ -11,7 +11,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
 import '../../dummy_data/dummy_objects.dart';
-import '../provider/movie_search_notifier_test.mocks.dart';
+import 'search_bloc_test.mocks.dart';
 
 @GenerateMocks([SearchMovies])
 void main() {
@@ -26,24 +26,6 @@ void main() {
   final tMovieList = <Movie>[testMovie];
   final tQuery = 'spiderman';
   
-  blocTest<SearchBloc, SearchState>(
-    'Should emit [Loading, HasData] when data is gotten successfully',
-    build: () {
-      when(mockSearchMovies.execute(tQuery))
-          .thenAnswer((_) async => Right(tMovieList));
-      return searchBloc;
-    },
-    act: (bloc) => bloc.add(OnQueryChanged(tQuery)),
-    wait: const Duration(milliseconds: 100),
-    expect: () => [
-      SearchLoading(),
-      SearchHasData(tMovieList),
-    ],
-    verify: (bloc) {
-      verify(mockSearchMovies.execute(tQuery));
-    },
-  );
-
   blocTest<SearchBloc, SearchState>(
   'Should emit [Loading, HasData] when data is gotten successfully',
   build: () {

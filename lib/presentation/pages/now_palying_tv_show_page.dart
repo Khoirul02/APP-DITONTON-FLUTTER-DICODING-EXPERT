@@ -48,7 +48,8 @@ class _NowPalyingTvShowPageState extends State<NowPalyingTvShowPage> {
                 child: Text(state.message),
               );
             } else {
-              return const Center(child: Text('No TV Show Found'));
+              return const Center(
+                  child: Text('Now Playing TV Show Not Found!'));
             }
           },
         ),

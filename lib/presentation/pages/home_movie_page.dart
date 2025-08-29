@@ -42,7 +42,7 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                   child: CircularProgressIndicator(),
                 );
               } else if (state is MovieListHasData) {
-                return MovieList(state.nowPlaying);
+                return MovieList(state.nowPlaying, 'Now');
               } else {
                 return Text('Failed');
               }
@@ -59,7 +59,7 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                   child: CircularProgressIndicator(),
                 );
               } else if (state is MovieListHasData) {
-                return MovieList(state.popular);
+                return MovieList(state.popular, 'Popular');
               } else {
                 return Text('Failed');
               }
@@ -76,7 +76,7 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                   child: CircularProgressIndicator(),
                 );
               } else if (state is MovieListHasData) {
-                return MovieList(state.topRated);
+                return MovieList(state.topRated, 'Top');
               } else {
                 return Text('Failed');
               }
@@ -111,14 +111,15 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
 
 class MovieList extends StatelessWidget {
   final List<Movie> movies;
-
-  MovieList(this.movies);
+  final String category;
+  MovieList(this.movies, this.category);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 200,
       child: ListView.builder(
+        key: ValueKey('listMovie$category'),
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
           final movie = movies[index];

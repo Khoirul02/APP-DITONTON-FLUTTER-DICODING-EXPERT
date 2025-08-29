@@ -1,12 +1,12 @@
+import 'package:ditonton/presentation/bloc/current_page_cubit.dart';
+import 'package:ditonton/presentation/bloc/header_title_cubit.dart';
 import 'package:ditonton/presentation/pages/about_page.dart';
 import 'package:ditonton/presentation/pages/home_movie_page.dart';
 import 'package:ditonton/presentation/pages/home_tv_show_page.dart';
 import 'package:ditonton/presentation/pages/search_page.dart';
 import 'package:ditonton/presentation/pages/watchlist_page.dart';
-import 'package:ditonton/presentation/provider/current_page_notifier.dart';
-import 'package:ditonton/presentation/provider/header_title_notifier.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -15,15 +15,15 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   void _onDrawerItemTapped(Widget page, String title) {
-    context.read<HeaderTitleNotifier>().changeHeaderTitle(title);
-    context.read<CurrentPageNotifier>().changeCurrentPage(page);
+    context.read<HeaderTitleCubit>().changeHeaderTitle(title);
+    context.read<CurrentPageCubit>().changeCurrentPage(page);
     Navigator.pop(context); // Tutup drawer setelah memilih item
   }
 
   @override
   Widget build(BuildContext context) {
-    String headerTitle = context.watch<HeaderTitleNotifier>().headerTitle;
-    Widget currentPage = context.watch<CurrentPageNotifier>().currentPage;
+    String headerTitle = context.watch<HeaderTitleCubit>().state;
+    Widget currentPage = context.watch<CurrentPageCubit>().state;
     return Scaffold(
       drawer: Drawer(
         child: Column(
@@ -33,9 +33,7 @@ class _MainPageState extends State<MainPage> {
               accountName: Text('Ditonton'),
               accountEmail: Text('ditonton@dicoding.com'),
               currentAccountPicture: CircleAvatar(
-                backgroundImage: NetworkImage(
-                  'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
-                ),
+                child: Icon(Icons.person),
               ),
             ),
             // Opsi untuk Serial TV

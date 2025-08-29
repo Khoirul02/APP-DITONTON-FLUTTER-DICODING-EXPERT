@@ -29,7 +29,7 @@ class WatchlistTvShowWidget extends StatelessWidget {
                   );
           } else if (state is WatchlistTvShowError) {
             return Center(
-              key: Key('error_message'),
+              key: ValueKey('error_message'),
               child: Text(state.message),
             );
           } else {

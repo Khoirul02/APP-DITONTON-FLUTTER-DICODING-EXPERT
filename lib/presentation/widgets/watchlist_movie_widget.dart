@@ -29,7 +29,7 @@ class WatchlistMovieWidget extends StatelessWidget {
                   );
           } else if (state is WatchlistMovieError) {
             return Center(
-              key: Key('error_message'),
+              key: ValueKey('error_message'),
               child: Text(state.message),
             );
           } else {

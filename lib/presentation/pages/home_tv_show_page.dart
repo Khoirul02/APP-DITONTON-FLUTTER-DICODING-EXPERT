@@ -44,7 +44,7 @@ class _HomeTvShowPageState extends State<HomeTvShowPage> {
                 child: CircularProgressIndicator(),
               );
             } else if (state is TvShowListHasData) {
-              return TvShowList(state.popular);
+              return TvShowList(state.popular, 'Popular');
             } else {
               return Text('Failed');
             }
@@ -62,7 +62,7 @@ class _HomeTvShowPageState extends State<HomeTvShowPage> {
                 child: CircularProgressIndicator(),
               );
             } else if (state is TvShowListHasData) {
-              return TvShowList(state.topRated);
+              return TvShowList(state.topRated, 'Top');
             } else {
               return Text('Failed');
             }
@@ -80,7 +80,7 @@ class _HomeTvShowPageState extends State<HomeTvShowPage> {
                 child: CircularProgressIndicator(),
               );
             } else if (state is TvShowListHasData) {
-              return TvShowList(state.nowPlaying);
+              return TvShowList(state.nowPlaying, 'Now');
             } else {
               return Text('Failed');
             }
@@ -112,14 +112,16 @@ class _HomeTvShowPageState extends State<HomeTvShowPage> {
 
 class TvShowList extends StatelessWidget {
   final List<TvShow> tvShow;
+  final String category;
 
-  TvShowList(this.tvShow);
+  TvShowList(this.tvShow, this.category);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 200,
       child: ListView.builder(
+        key: ValueKey('listTvShow${category}'),
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
           final item = tvShow[index];

@@ -22,8 +22,7 @@ class Helper {
   }
 
   Future<http.Client> createSSLClient() async {
-    final sslCert =
-        await rootBundle.load('certificates/themoviedb.pem');
+    final sslCert = await rootBundle.load('certificates/themoviedb.pem');
     SecurityContext securityContext = SecurityContext(withTrustedRoots: false);
     securityContext.setTrustedCertificatesBytes(sslCert.buffer.asInt8List());
     final context = securityContext;

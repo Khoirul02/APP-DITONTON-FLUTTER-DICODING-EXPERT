@@ -1,11 +1,11 @@
 import 'package:ditonton/common/constants.dart';
+import 'package:ditonton/presentation/bloc/header_title_cubit.dart';
 import 'package:ditonton/presentation/bloc/search_bloc.dart';
 import 'package:ditonton/presentation/bloc/search_event.dart';
 import 'package:ditonton/presentation/bloc/search_state.dart';
 import 'package:ditonton/presentation/bloc/search_tv_bloc.dart';
 import 'package:ditonton/presentation/bloc/search_tv_event.dart';
 import 'package:ditonton/presentation/bloc/search_tv_state.dart';
-import 'package:ditonton/presentation/provider/header_title_notifier.dart';
 import 'package:ditonton/presentation/widgets/movie_card_list.dart';
 import 'package:ditonton/presentation/widgets/tv_show_card_list.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +16,7 @@ class SearchPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String headerTitle = context.watch<HeaderTitleNotifier>().headerTitle;
+    String headerTitle = context.watch<HeaderTitleCubit>().state;
     return Scaffold(
       appBar: AppBar(
         title: Text('Search of $headerTitle'),
@@ -69,10 +69,12 @@ class SearchPage extends StatelessWidget {
                               child: Text('Data Not Found!'),
                             ),
                     );
-                  } else {
+                  } else if (state is SearchError) {
                     return Expanded(
-                      child: Container(),
+                      child: Center(child: Text(state.message)),
                     );
+                  } else {
+                    return Expanded(child: Container());
                   }
                 },
               ),
@@ -99,10 +101,12 @@ class SearchPage extends StatelessWidget {
                               child: Text('Data Not Found!'),
                             ),
                     );
-                  } else {
+                  } else if (state is SearchErrorTv) {
                     return Expanded(
-                      child: Container(),
+                      child: Center(child: Text(state.message)),
                     );
+                  } else {
+                    return Expanded(child: Container());
                   }
                 },
               ),

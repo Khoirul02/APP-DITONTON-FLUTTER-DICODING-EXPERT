@@ -39,6 +39,7 @@ class AboutPage extends StatelessWidget {
             child: IconButton(
               onPressed: () => Navigator.pop(context),
               icon: Icon(Icons.arrow_back),
+              key: Key('about_back_button'),
             ),
           )
         ],
