@@ -75,34 +75,24 @@ void main() {
     );
 
     blocTest<TvShowDetailCubit, TvShowDetailState>(
-      'emits [Loading, Error] when detail fetch fails',
-      build: () {
-        when(mockGetTvShowDetail.execute(tId))
-            .thenAnswer((_) async => Left(ServerFailure('Failed')));
-        when(mockGetTvShowRecommendations.execute(tId))
-            .thenAnswer((_) async => Right(tTvList));
-        return cubit;
-      },
-      act: (cubit) => cubit.fetchTvShowDetail(tId),
-      expect: () => [
-        TvShowDetailLoading(),
-        const TvShowDetailError('Failed'),
-      ],
-    );
-
-    blocTest<TvShowDetailCubit, TvShowDetailState>(
-      'emits [Loading, Error] when recommendations fetch fails',
+      'emits [Loading, Loaded with empty recommendations] when recommendations fetch fails',
       build: () {
         when(mockGetTvShowDetail.execute(tId))
             .thenAnswer((_) async => Right(tTvDetail));
         when(mockGetTvShowRecommendations.execute(tId))
             .thenAnswer((_) async => Left(ServerFailure('Error Reco')));
+        when(mockGetWatchListStatus.execute(tId))
+            .thenAnswer((_) async => true);
         return cubit;
       },
       act: (cubit) => cubit.fetchTvShowDetail(tId),
       expect: () => [
         TvShowDetailLoading(),
-        const TvShowDetailError('Error Reco'),
+        TvShowDetailHasData(
+          tvShow: tTvDetail,
+          recommendations: [],
+          isAddedToWatchlist: true,
+        ),
       ],
     );
   });

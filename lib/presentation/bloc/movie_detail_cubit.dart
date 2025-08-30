@@ -27,7 +27,7 @@ class MovieDetailCubit extends Cubit<MovieDetailState> {
 
     final detailResult = await getMovieDetail.execute(id);
     final recommendationResult = await getMovieRecommendations.execute(id);
-
+    final isAdded = await getWatchListStatus.execute(id);
     detailResult.fold(
       (failure) {
         emit(MovieDetailError(failure.message));
@@ -38,14 +38,14 @@ class MovieDetailCubit extends Cubit<MovieDetailState> {
             emit(MovieDetailHasData(
               movie: movie,
               recommendations: const [],
-              isAddedToWatchlist: false,
+              isAddedToWatchlist: isAdded,
             ));
           },
-          (movies) {
+          (movies) async {
             emit(MovieDetailHasData(
               movie: movie,
               recommendations: movies,
-              isAddedToWatchlist: false,
+              isAddedToWatchlist: isAdded,
             ));
           },
         );

@@ -27,7 +27,7 @@ class TvShowDetailCubit extends Cubit<TvShowDetailState> {
 
     final detailResult = await getTvShowDetail.execute(id);
     final recommendationResult = await getTvShowRecommendations.execute(id);
-
+    final isAdded = await getWatchListStatus.execute(id);
     detailResult.fold(
       (failure) {
         emit(TvShowDetailError(failure.message));
@@ -35,10 +35,13 @@ class TvShowDetailCubit extends Cubit<TvShowDetailState> {
       (tvData) {
         recommendationResult.fold(
           (failure) {
-            emit(TvShowDetailError(failure.message));
+            emit(TvShowDetailHasData(
+              tvShow: tvData,
+              recommendations: [],
+              isAddedToWatchlist: isAdded,
+            ));
           },
           (recommendations) async {
-            final isAdded = await getWatchListStatus.execute(id);
             emit(TvShowDetailHasData(
               tvShow: tvData,
               recommendations: recommendations,

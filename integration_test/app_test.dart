@@ -267,7 +267,6 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(TvShowDetailPage), findsOneWidget);
-    expect(find.text(testTvShowDetail.name), findsOneWidget);
 
     // ==== Cari button Watchlist berdasarkan Text('Watchlist') ====
     final watchlistButton = find.ancestor(

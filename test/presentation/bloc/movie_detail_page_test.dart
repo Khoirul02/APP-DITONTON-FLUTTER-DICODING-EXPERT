@@ -51,7 +51,6 @@ void main() {
   final tMovieDetail = testMovieDetail;
   final tMovies = <Movie>[testMovie];
 
-  // --- FETCH MOVIE DETAIL ---
   blocTest<MovieDetailCubit, MovieDetailState>(
     'Should emit [Loading, HasData] when fetchMovieDetail succeeds',
     build: () {
@@ -59,6 +58,8 @@ void main() {
           .thenAnswer((_) async => Right(tMovieDetail));
       when(mockGetMovieRecommendations.execute(tId))
           .thenAnswer((_) async => Right(tMovies));
+      when(mockGetWatchListStatus.execute(tMovieDetail.id))
+          .thenAnswer((_) async => true);
       return cubit;
     },
     act: (cubit) => cubit.fetchMovieDetail(tId),
@@ -67,7 +68,7 @@ void main() {
       MovieDetailHasData(
         movie: tMovieDetail,
         recommendations: tMovies,
-        isAddedToWatchlist: false,
+        isAddedToWatchlist: true,
       ),
     ],
   );
@@ -79,6 +80,8 @@ void main() {
           .thenAnswer((_) async => Left(ServerFailure('Server Failure')));
       when(mockGetMovieRecommendations.execute(tId))
           .thenAnswer((_) async => Right(tMovies));
+      when(mockGetWatchListStatus.execute(tMovieDetail.id))
+          .thenAnswer((_) async => true);
       return cubit;
     },
     act: (cubit) => cubit.fetchMovieDetail(tId),
@@ -95,6 +98,8 @@ void main() {
           .thenAnswer((_) async => Right(tMovieDetail));
       when(mockGetMovieRecommendations.execute(tId))
           .thenAnswer((_) async => Left(ServerFailure('Failed')));
+      when(mockGetWatchListStatus.execute(tMovieDetail.id))
+          .thenAnswer((_) async => true);
       return cubit;
     },
     act: (cubit) => cubit.fetchMovieDetail(tId),
@@ -102,13 +107,12 @@ void main() {
       MovieDetailLoading(),
       MovieDetailHasData(
         movie: tMovieDetail,
-        recommendations: const [],
-        isAddedToWatchlist: false,
+        recommendations: [],
+        isAddedToWatchlist: true,
       ),
     ],
   );
 
-  // --- ADD WATCHLIST ---
   blocTest<MovieDetailCubit, MovieDetailState>(
     'Should update watchlist status when addWatchlist succeeds',
     build: () {
